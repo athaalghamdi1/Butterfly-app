@@ -1,0 +1,136 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block head %}
+<link href="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="{% static 'css/mcdp.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/butterflies/butterflies_detail.css' %}" />
+{% endblock %}
+
+{% block content %}
+<section class="butterflies-container">
+  <div class="butterflies-img">
+    {% if butterflies.photo.url %}
+    <img src="{{butterflies.photo.url}}" alt="A photo of {{butterflies.name}}" class="usr-img" />
+    {% else %}
+    {% comment %} <img src="{% static 'images/butterflies1.svg' %}" alt="A skater boy butterflies" /> {% endcomment %}
+    {% endif %}
+  </div>
+  <div class="butterfl-details">
+    <h1>{{ butterflies.name }}</h1>
+    {% if butterflies.wingspan > 0 %}
+      <h2>A {{ butterflies.wingspan }} year old {{ butterflies.species }}</h2>
+    {% else %}
+      <h2>A {{ butterflies.species }} kitten.</h2>
+    {% endif %}
+    <p>{{ butterflies.description }}</p>
+    <div class="butterflies-actions">
+      <a href="{% url 'butterflies-update' butterflies.id %}" class="btn warn">Edit</a>
+      <a href="{% url 'butterflies-delete' butterflies.id %}" class="btn danger">Delete</a>
+      <h3>Change {{ butterflies.name }}'s photo</h3>
+    <form action="{% url 'add-photo' butterflies.id %}" method="POST" class="subsection-content" autocomplete="off">
+        {% csrf_token %} 
+        {{ photo_form.as_p }}
+      <button type="submit" class="btn submit">Add Photo</button>
+    </form>
+    <!-- new photo form above -->
+    </div>
+  </div>
+</section>
+
+<!-- Add Feeding Form -->
+<h3>Add a Feeding</h3>
+<form action="{% url 'butterflies-feeding' butterflies.id %}" method="post" class="subsection-content" autocomplete="off">
+  {% csrf_token %} 
+  {{ feeding_form.as_p }}
+  <button type="submit" class="btn submit">Add Feeding</button>
+</form>
+{% comment %} <h2>Are you sure you want to delete {{ butterflies.name }}?</h2>
+
+<form action="" method="post" class="form">
+  {% csrf_token %}
+  <a href="{% url 'butterflies-detail' butterflies.id %}" class="btn secondary">Cancel</a>
+  <button type="submit" class="btn danger">Yes - Delete!</button>
+</form> {% endcomment %}
+
+<div class="feedings-toy-container">
+  <section class="feedings">
+    <div class="subsection-title">
+      <h2>Feedings</h2>
+      {% comment %} <img src="{% static 'images/butterflies-cone.svg' %}" alt="An ice cream cone butterflies" />
+      <img src="{% static 'images/butterflies-onigiri.svg' %}" alt="A butterflies as onigiri" />
+      <img src="{% static 'images/kitty-kabob.svg' %}" alt="A kabob of kittens" /> {% endcomment %}
+    </div>
+
+    <h3>Past Feedings</h3>
+    {% if butterflies.feeding_set.all.count %}
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Meal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for feeding in butterflies.feeding_set.all %}
+            <tr>
+              <td>{{ feeding.date }}</td>
+              <td>{{ feeding.get_meal_display }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="subsection-content">
+        <p>⚠️ {{ butterflies.name }} has not been fed!</p>
+      </div>
+    {% endif %}
+
+  </section>
+  <section class="toys">
+    <div class="subsection-title">
+      <h2>Toys</h2>
+      {% comment %} <img src="{% static 'images/string.svg' %}" alt="A ball of string" />
+      <img src="{% static 'images/mouse.svg' %}" alt="A mouse" />
+      <img src="{% static 'images/fish.svg' %}" alt="A fishy toy" /> {% endcomment %}
+    </div>
+  
+    <!-- displaying a butterflies's toys -->
+    <h3>{{ butterflies.name }}'s Toys</h3>
+    <div class="subsection-content">
+      {% if butterflies.toys.count %} 
+        {% for toy in butterflies.toys.all %}
+          <div class="toy-container">
+            <div class="color-block" style="background-color: {{ toy.color }}"></div>
+            <a href="{% url 'toy-detail' toy.id %}">
+              <p>A {{ toy.color }} {{ toy.name }}</p>
+            </a>
+          </div>
+        {% endfor %} 
+      {% else %}
+        <p class="no-toys">{{butterflies.name}} doesn't have any toys!</p>
+      {% endif %}
+    </div>
+  
+    <h3>Available Toys</h3>
+    <div class="subsection-content" id="toys-container">
+      {% if toys.count %} 
+        {% for toy in toys.all %}
+          <div class="toy-container">
+            <div class="color-block" style="background-color: {{ toy.color }}"></div>
+            <a href="{% url 'toy-detail' toy.id %}">
+              <p>A {{ toy.color }} {{ toy.name }}</p>
+            </a>
+            <form action="{% url 'associate-toy' butterflies.id toy.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn submit">Give toy</button>
+            </form>
+          </div>
+        {% endfor %} 
+      {% else %}
+        <p class="all-toys">{{butterflies.name}} already has all the available toys 🥳</p>
+      {% endif %}
+    </div>
+<script defer src="{% static 'js/butterflies-detail.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}" />
+{% endblock %}
+{% block content %}
+
+<section class="logo-container">
+  <div class="butterflies-container"> 
+    {% comment %} <img src="{% static 'images/btr.jpg' %}" alt="Text reads: butterfly Collector" /> {% endcomment %}
+  </div>
+  <img src="{% static 'images/89.jpg' %}" alt="Text reads: butterfly Collector"   
+  {% comment %} style = " 
+  
+    height: 1000;
+    width: 350;
+    justify-items: center;
+    margin-left:600px;
+    margin-top:-50px
+  "/> {% endcomment %}
+</section>
+
+;
+{% if not user.is_authenticated %}
+  <section style= "
+  margin-right:100px;
+  
+  ">  
+    <form action="{% url 'home' %}" method="post" class="login">
+      <h1>Login</h1>
+      {% csrf_token %} {{ form.as_p }}
+      <input type="hidden" name="next" value="{{ next }}" />
+      <button type="submit" class="btn submit">Login</button>
+    </form>
+  </section>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/butterflies/butterflies-index.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+  <h1>Butterflies List</h1>
+  <img src="{% static 'images/butt.jpg' %}" alt="BUTTERFLY" />
+  <img src="{% static 'images/btr.jpg' %}" alt="BUTTERFLY" />
+  <img src="{% static 'images/btttt.jpg' %}" alt="BUTTERFLY" />
+  <img src="{% static 'images/butterfly2.jpg' %}" alt="BUTTERFLY" />
+</section>
+
+<section class="card-container">
+  {% for butterflie in butterflies %}
+    <div class="card">
+      <a href="{% url 'butterflies-detail' butterflie.id %}">
+        <div class="card-content">
+          <div class="card-img-container">
+            <img src="{% static 'images/butterfly1.jpg' %}" alt="A skater boy butterfly" class="card-img" />
+          </div>
+          <h2 class="card-title">{{ butterflie.name }}</h2>
+          {% if butterflie.wingspan > 0 %}
+            <p>A {{ butterflie.species }} butterfly with a wingspan of {{ butterflie.wingspan }} cm</p>
+          {% else %}
+            <p>A small {{ butterflie.species }} butterfly.</p>
+          {% endif %}
+          <p><small>{{ butterflie.description }}</small></p>
+        </div>
+      </a>
+    </div>
+  {% endfor %}
+</section>
+
+{% endblock %}

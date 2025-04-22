@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>All Butterflies</h1>
+  <li><a href="{% url 'toy-index' %}">All Toys</a></li>
+  <li><a href="{% url 'cat-create' %}">Add a butterflies</a></li>
+  <li><a href="{% url 'toy-create' %}">Add a Toy</a></li>
+  <li><a href="{% url 'about' %}">About</a></li>
+  <ul>
+    {% for butterflie in object_list %}
+      <li>{{ butterflie.name }} - {{ butterflie.species }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
