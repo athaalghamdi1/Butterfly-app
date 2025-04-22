@@ -9,7 +9,7 @@ Welcome to **Butterfly Collector** — a full-stack Django web app where you can
 
 Butterfly Collector allows users to:
 
-- Manage a personalized collection of butterflies 🦋  
+- Manage a personalized collection of butterflies  
 - Add, update, and delete butterfly records  
 - Upload butterfly photos  
 - Record feeding events and assign toys  
@@ -19,28 +19,28 @@ Butterfly Collector allows users to:
 
 ---
 
-## 🔑 Features
+## Features
 
-### 🦋 Butterfly Management
+### Butterfly Management
 - Full CRUD: Add, view, edit, and delete butterflies  
 - Store species, wingspan, descriptions, and photos  
 - Dynamic detail view with custom image fallback  
 
-### 🍽️ Feeding Logs
+### Feeding Logs
 - Add timestamped feeding entries  
 - Display feeding history in a table  
 
-### 🎁 Toy Association
+### Toy Association
 - Assign and unassign toys to butterflies  
 - Show owned and available toys  
 - Color-coded toy UI elements  
 
-### 👥 Authentication
+### Authentication
 - Secure user signup, login, and logout  
 - Conditional navigation based on user session  
 - Each user sees only their own data  
 
-### 🎨 Custom UI Elements
+### Custom UI Elements
 - Reusable layout with `base.html`  
 - Clean, responsive interface  
 - Custom CSS for pages and components  

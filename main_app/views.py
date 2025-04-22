@@ -102,7 +102,7 @@ class ToyDelete(DeleteView):
 def associate_toy(request, butterfly_id, toy_id):
     # Note that you can pass a toy's id instead of the whole object
     butterfly.objects.get(id=butterfly_id).toys.add(toy_id)
-    return redirect('butterflies-detail', {"butterfly_id":butterfly_id, "toy_id": toy_id})
+    return redirect('butterflies-detail', butterflies_id=butterfly_id)
 
 def remove_toy(request, butterflies_id, toy_id):
     butterfly.objects.get(id=butterflies_id).toys.remove(toy_id)
